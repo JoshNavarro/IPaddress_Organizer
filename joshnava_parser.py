@@ -2,10 +2,11 @@ import ipaddress
 from itertools import groupby
 from openpyxl import Workbook
 from openpyxl.styles import Font
+from os import path
+import platform
 import re
 
 count = 0
-path = ''
 
 # Custom subnet address management for 10.22.128.xx/18 SJC23
 subnets_10_22_xx_xx = {
@@ -269,11 +270,12 @@ class Vulnerability():
     '''
     A class to store vulnerabilities and their useful information
     '''
-    def __init__(self,key='',summary='',lab_id=0,ip=0, priority='', description=''):
+    def __init__(self,key='',summary='',lab_id=0,ip=0, date='', priority='', description=''):
         self.key = key
         self.summary = summary
         self.lab_id = lab_id
         self.ip = ipaddress.ip_address(ip)
+        self.date = date
         self.priority = priority
         self.description = description
 
@@ -344,11 +346,11 @@ def create_useful_vulnerability_list(vulnerability_list):
     for vulnerability in vulnerability_list:
         # if port number is included in entry, skip the port number and add IP address at [4]
         if '.' not in vulnerability[3]:
-            vuln = Vulnerability(vulnerability[0],vulnerability[1],vulnerability[2],vulnerability[4], vulnerability[7], '\n'.join(vulnerability[8:-3]))
+            vuln = Vulnerability(vulnerability[0],vulnerability[1],vulnerability[2],vulnerability[4], vulnerability[6], vulnerability[7], '\n'.join(vulnerability[8:-3]))
             vulnerabilities.append(vuln)
         # no port number is included in entry, add IP address at [3]
         else:
-            vuln = Vulnerability(vulnerability[0],vulnerability[1],vulnerability[2],vulnerability[3], vulnerability[6],'\n'.join(vulnerability[7:-3]))
+            vuln = Vulnerability(vulnerability[0],vulnerability[1],vulnerability[2],vulnerability[3], vulnerability[5], vulnerability[6],'\n'.join(vulnerability[7:-3]))
             vulnerabilities.append(vuln)
     # a full useful list of vulnerabilities is returned
     return vulnerabilities
@@ -458,8 +460,12 @@ def print_vulnerable_ips_in_subnet(child_subnet):
             print(f'\nThere are: {len(subnets_doods[parent_subnet][child_subnet])} vulnerabilities in this subnet.\n')
             break
 
-def export_vulnerabilities_to_excel(child_subnet):
-    global path
+def export_vulnerabilities_to_excel(child_subnet,path):
+    '''
+    Export individual subnet to an excel file
+    Input: individual subnet
+    Output: Excel file saved in working directory
+    '''
     # creating workbook
     workbook = Workbook()
     ws = workbook.active
@@ -470,17 +476,19 @@ def export_vulnerabilities_to_excel(child_subnet):
     # set dimensions of columns
     ws.column_dimensions['A'].width = 15
     ws.column_dimensions['B'].width = 15
-    ws.column_dimensions['D'].width = 15
-    ws.column_dimensions['E'].width = 90
-    ws.column_dimensions['F'].width = 100
+    ws.column_dimensions['C'].width = 20
+    ws.column_dimensions['E'].width = 15
+    ws.column_dimensions['F'].width = 90
+    ws.column_dimensions['G'].width = 100
 
     # specifying column names
     ws['A1'] = 'Key'
     ws['B1'] = 'IP Address'
-    ws['C1'] = 'Lab ID'
-    ws['D1'] = 'InfoSec Severity'
-    ws['E1'] = 'Summary'
-    ws['F1'] = 'Description'
+    ws['C1'] = 'Last Identified'
+    ws['D1'] = 'Lab ID'
+    ws['E1'] = 'InfoSec Severity'
+    ws['F1'] = 'Summary'
+    ws['G1'] = 'Description'
 
     # apply bold font to row 1
     for cell in ws["1:1"]:
@@ -493,10 +501,11 @@ def export_vulnerabilities_to_excel(child_subnet):
             for vuln in subnets_doods[parent_subnet][child_subnet]:
                 ws['A'+str(row)] = str(vuln.key)
                 ws['B'+str(row)] = str(vuln.ip)
-                ws['C'+str(row)] = str(vuln.lab_id)
-                ws['D'+str(row)] = str(vuln.priority)
-                ws['E'+str(row)] = str(vuln.summary)
-                ws['F'+str(row)] = str(vuln.description)
+                ws['C'+str(row)] = str(vuln.date)
+                ws['D'+str(row)] = str(vuln.lab_id)
+                ws['E'+str(row)] = str(vuln.priority)
+                ws['F'+str(row)] = str(vuln.summary)
+                ws['G'+str(row)] = str(vuln.description)
                 row += 1
 
     # prompt user for file name
@@ -504,10 +513,31 @@ def export_vulnerabilities_to_excel(child_subnet):
     filename += '.xlsx'
 
     # save the workbook
-    #workbook.save(path+filename)
-    workbook.save(filename)
+    workbook.save(path+filename)
+    print("File has been saved!")
+    #workbook.save(filename)
 
-def menu():
+def get_path():
+    '''
+    Obtain path to save files
+    Output: Valid path
+    '''
+    # prompt user for path to save files
+    file_path = input("Enter full path of location to save files: ")
+    # check for path validity
+    while not path.isdir(file_path):
+        file_path = input("Please input valid path: ")
+
+    # add appropriate slash depending on os
+    if platform.system() == "Windows":
+        file_path += '\\'
+    elif platform.system() == "Linux" or platform.system() == "Darwin":
+        file_path += '/'
+
+    # return valid path    
+    return file_path
+
+def menu(file_path):
     '''
     Dedicated menu for searching through subnets/ips
     '''
@@ -528,7 +558,11 @@ def menu():
             else:
                 child_subnet = select_subnet('child')
                 print_vulnerable_ips_in_subnet(child_subnet)
-                export_vulnerabilities_to_excel(child_subnet)
+                export = input('Would you like to export as excel? (yes/no):')
+                while export.lower()[:1] not in ('y','n'):
+                    export = input("Enter yes or no: ")
+                if export.lower()[:1] == 'y':
+                    export_vulnerabilities_to_excel(child_subnet,file_path)
                 # press enter to continue (back to expanded subnet)
                 (input('Press Enter to continue...'))
 
@@ -537,7 +571,6 @@ def main():
     '''
     Main program running
     '''
-    global path
     print("Welcome to the Vulnerability Organizer beta!\n")
     # check if file is valid
     infile = open_file()
@@ -558,12 +591,12 @@ def main():
     sort_by_priority()
     print("\nData has been populated and organized!")
     print(f'There are: {len(vulnerability_list)} vulnerabilities in the file given.')
-    print(f'There are: {count} vulnerabilities accounted for. Subnets for missing vulnerabilities have not been added yet.')
+    print(f'There are: {count} vulnerabilities accounted for.')
     input('Press Enter to continue...')
 
     # will work on path later (issue with path verification)
-    #path = input('\nEnter path to save files to: ')
-    menu()
+    file_path = get_path()
+    menu(file_path)
 
 if __name__ == "__main__":
     main()
