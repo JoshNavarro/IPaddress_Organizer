@@ -1,0 +1,85 @@
+CLVM-495752 
+Writeable SNMP Information 
+1367 	161 	172.25.195.53	2019.Mar.02 	2019.Mar.02 01:44 	S1 (Urgent) 	Unauthorized users can modify all SNMP information because the access password is not secure.	If SNMP access is not required on this system, then disallow it. Otherwise, use a secure un-guessable "community name", and restrict the hosts that talk SNMP with your system to a defined list of IP addresses.	rcanda@cisco.com 
+tleese@cisco.com 
+
+CLVM-491861 
+Microsoft Windows Remote Desktop Protocol Remote Code Execution Vulnerability (MS12-020) 
+2240 		10.29.204.28	2019.Feb.24 	2019.Feb.24 06:26 	S1 (Urgent) 	The Remote Desktop feature in Windows enables access to all of the programs, resources and accessories on a user's computer from a second Windows-based computer.
+A remote code execution vulnerability exists in the way the Remote Desktop Protocol accesses an object in memory that has been improperly initialized or has been deleted (CVE-2012-0002).
+A denial of service vulnerability exists in the way the Remote Desktop Protocol service processes packets. An attacker who successfully exploited this vulnerability could cause the target service to stop responding (CVE-2012-0152).
+This security update is rated Critical for all supported releases of Microsoft Windows.
+Note:
+NLA or network layer authentication is a layer of security on top of RDP. If NLA is enabled then the vulnerability can be exploited remotely but will need credentials.
+1. The authenticated check will determine presence of this vulnerability irrespective of the NLA setting.
+2. The remote check can determine presence of this vulnerability only if NLA is disabled.
+We encourage customers to patch irrespective of the NLA status.
+Windows Embedded Systems:- For additional information regarding security updates for embedded systems, refer to the following MSDN blog(s):
+<a href="http://blogs.msdn.com/b/embedded/archive/2012/03/26/march-2012-security-updates-for-xpe-sp3-and-standard-2009-are-now-on-ece.aspx" target="_blank" rel="nofollow">March 2012 Security Updates for XPe SP3 and Standard 2009 Are Now on ECE</a> (KB2621440)
+<a href="http://blogs.msdn.com/b/embedded/archive/2012/04/24/april-2012-security-updates-are-live-on-ece-for-xpe-and-standard-2009.aspx" target="_blank" rel="nofollow">April 2012 Security Updates are Live on ECE for XPe and Standard 2009</a> (KB2621440)
+Note: This vulnerability is applicable to versions of the software that are not listed in the official advisory.	Patch:
+Following are links for downloading patches to fix the vulnerabilities:
+<a href="http://www.microsoft.com/downloads/details.aspx?familyid=18a1fe48-1318-4b93-afad-206950bb1ae5" target="_blank" rel="nofollow">MS12-020: Windows XP Service Pack 3</a>
+<a href="http://www.microsoft.com/downloads/details.aspx?familyid=eccf865d-399a-4862-b26f-f35580419875" target="_blank" rel="nofollow">MS12-020: Windows XP Professional x64 Edition Service Pack 2</a>
+<a href="http://www.microsoft.com/downloads/details.aspx?familyid=b69b4b9b-c0a1-4c1e-b081-8529eaf1536a" target="_blank" rel="nofollow">MS12-020: Windows Server 2003 Service Pack 2</a>
+<a href="http://www.microsoft.com/downloads/details.aspx?familyid=8081e67f-288c-4714-bff8-e0ff9777692f" target="_blank" rel="nofollow">MS12-020: Windows Server 2003 x64 Edition Service Pack 2</a>
+<a href="http://www.microsoft.com/downloads/details.aspx?familyid=521baa02-5d7a-4cba-8a1a-2af1b6e4cbe4" target="_blank" rel="nofollow">MS12-020: Windows Server 2003 with SP2 for Itanium-based Systems</a>
+<a href="http://www.microsoft.com/downloads/details.aspx?familyid=39abdf7b-ea9d-4b95-a28d-4140374d531d" target="_blank" rel="nofollow">MS12-020: Windows Vista Service Pack 2</a>
+<a href="http://www.microsoft.com/downloads/details.aspx?familyid=e5970daf-4440-42fa-8efc-e6190c6a22aa" target="_blank" rel="nofollow">MS12-020: Windows Vista x64 Edition Service Pack 2</a>
+<a href="http://www.microsoft.com/downloads/details.aspx?familyid=fef2c1d7-2004-43d7-aa49-673c6f374670" target="_blank" rel="nofollow">MS12-020: Windows Server 2008 for 32-bit Systems Service Pack 2</a>
+<a href="http://www.microsoft.com/downloads/details.aspx?familyid=4ffae13f-3432-4849-a2da-a76f96d7ceb3" target="_blank" rel="nofollow">MS12-020: Windows Server 2008 for x64-based Systems Service Pack 2</a>
+<a href="http://www.microsoft.com/downloads/details.aspx?familyid=67581250-50fd-4f4c-a3cc-45ce2662b0c3" target="_blank" rel="nofollow">MS12-020: Windows Server 2008 for Itanium-based Systems Service Pack 2</a>
+<a href="http://www.microsoft.com/downloads/details.aspx?familyid=16b0195c-84d3-4c08-8b98-ff2c80d144e1" target="_blank" rel="nofollow">MS12-020: Windows 7 for 32-bit Systems and Windows 7 for 32-bit Systems Service Pack 1</a>
+<a href="http://www.microsoft.com/downloads/details.aspx?familyid=3a6c7fdf-105a-4886-ad52-c892f37e32d1" target="_blank" rel="nofollow">MS12-020: Windows 7 for 32-bit Systems and Windows 7 for 32-bit Systems Service Pack 1</a>
+<a href="http://www.microsoft.com/downloads/details.aspx?familyid=40b62d08-d2a2-4900-b01c-46fc761973d0" target="_blank" rel="nofollow">MS12-020: Windows 7 for x64-based Systems and Windows 7 for x64-based Systems Service Pack 1</a>
+<a href="http://www.microsoft.com/downloads/details.aspx?familyid=1bbe7cda-4bee-4d65-8127-3c13624a1168" target="_blank" rel="nofollow">MS12-020: Windows 7 for x64-based Systems and Windows 7 for x64-based Systems Service Pack 1</a>
+<a href="http://www.microsoft.com/downloads/details.aspx?familyid=7c1774cc-e00c-47f3-97a2-bc90de857793" target="_blank" rel="nofollow">MS12-020: Windows Server 2008 R2 for x64-based Systems and Windows Server 2008 R2 for x64-based Systems Service Pack 1*</a>
+<a href="http://www.microsoft.com/downloads/details.aspx?familyid=7ec21f41-1673-4592-b45c-6438ad57e08c" target="_blank" rel="nofollow">MS12-020: Windows Server 2008 R2 for x64-based Systems and Windows Server 2008 R2 for x64-based Systems Service Pack 1*</a>
+<a href="http://www.microsoft.com/downloads/details.aspx?familyid=6a07f99c-8ab4-4e44-8d48-6ac787dd2b51" target="_blank" rel="nofollow">MS12-020: Windows Server 2008 R2 for Itanium-based Systems and Windows Server 2008 R2 for Itanium-based Systems Service Pack 1</a>
+<a href="http://www.microsoft.com/downloads/details.aspx?familyid=469aa1f6-ed89-4649-8736-eaa5e2ad44ee" target="_blank" rel="nofollow">MS12-020: Windows Server 2008 R2 for Itanium-based Systems and Windows Server 2008 R2 for Itanium-based Systems Service Pack 1</a>
+Virtual Patches:
+<a href="http://www.trendmicro.com/vulnerabilitycontrols" target="_blank" rel="nofollow">Trend Micro Virtual Patching</a>
+Virtual Patch #1004949: 1004949 - Remote Desktop Protocol Vulnerability (CVE-2012-0002)	rcanda@cisco.com 
+tleese@cisco.com 
+
+CLVM-490917 
+VMware ESXi 5.5 Patch Release ESXi550-201709101-SG, ESXi550-201709102-SG Missing (KB 2150882)(Spectre) 
+2240 		10.29.254.16	2019.Feb.22 	2019.Feb.22 00:09 	S2 (High) 	VMware ESXi is an enterprise level computer virtualization product. 
+A vulnerability was reported in VMware ESXi. The ESXi Host Client contains a vulnerability that may allow for stored cross-site scripting (XSS).
+Exploiting the vulnerability could allow an authenticated VNC session to cause a stack overflow via a specific set of VNC packets. Successful exploitation of this issue could result in remote code execution in a virtual machine via the authenticated VNC session.
+CPU data cache timing can be abused to efficiently leak information out of mis-speculated CPU execution, leading to (at worst) arbitrary virtual memory read vulnerabilities across local security boundaries in various contexts. (Speculative execution is an automatic and inherent CPU performance optimization used in all modern processors.) (CVE-2017-5715)
+QID Detection Logic(authenticated):
+This QID checks for vulnerable versions of VMware ESXi 5.5	To resolve this issue, upgrade to VMware ESXi Build 6480267or the latest VMware ESXi build. 
+Refer to VMware advisory <a href="https://kb.vmware.com/s/article/2150882?r=2&Quarterback.validateRoute=1&KM_Utility.getArticleData=1&KM_Utility.getGUser=1&KM_Utility.getArticleLanguage=1&KM_Utility.getArticle=1" target="_blank" rel="nofollow">KB 2150882</a> for updates and build information.
+Patch:
+Following are links for downloading patches to fix the vulnerabilities:
+<a href="https://www.vmware.com/security/advisories/VMSA-2017-0021.html" target="_blank" rel="nofollow">VMSA-2017-0021: VMware ESXi 5.5</a>	rcanda@cisco.com 
+tleese@cisco.com 
+
+CLVM-490916 
+Dropbear SSH Multiple Security Vulnerabilities 
+2240 	22 	10.29.254.5	2019.Feb.22 	2019.Feb.22 00:16 	S1 (Urgent) 	Dropbear is a software package that provides a Secure Shell-compatible server and client. It is designed as a replacement for standard OpenSSH for environments with low memory and processor resources, such as embedded systems.
+Dropbear SSH contains the following vulnerabilites:
+CVE-2016-7406: Format string vulnerability in Dropbear SSH allows remote attackers to execute arbitrary code via format string specifiers in the (1) username or (2) host argument.
+CVE-2016-7407: The dropbearconvert command in Dropbear SSH allows attackers to execute arbitrary code via a crafted OpenSSH key file.
+CVE-2016-7408: dbclient could run arbitrary code as the local dbclient user if particular -m or -c arguments are provided. This could be an issue where dbclient is used in scripts. Successfully exploiting this issue will allow the attacker to execute arbitrary code within the context of an application using the affected library. 
+CVE-2016-7409: The dbclient and server in Dropbear SSH before 2016.74, when compiled with DEBUG_TRACE, allows local users to read process memory via the -v argument, related to a failed remote ident. Dropbear SSH is prone to a remote information disclosure vulnerability. Successfully exploiting this issue will allow the attacker to gain sensitive information.
+Affected Versions:
+Dropbear SSH prior to 2016.74
+QID Detection Logic (Authenticated):
+This authenticated detection matches vulnerable versions of the Dropbear SSH client by running the "dropbear -V" command.
+QID Detection Logic (Unauthenticated):
+This unauthenticated detection matches vulnerable versions of Dropbear SSH based on the banner disclosed by the remote service.	Customers are advised to upgrade to <a href="https://matt.ucc.asn.au/dropbear/" target="_blank" rel="nofollow">Dropbear SSH 2016.74</a> or later versions to remediate these vulnerabilities.
+Patch:
+Following are links for downloading patches to fix the vulnerabilities:
+<a href="https://matt.ucc.asn.au/dropbear/" target="_blank" rel="nofollow">Dropbear SSH 2016.74 or later</a>	rcanda@cisco.com 
+tleese@cisco.com 
+
+CLVM-490911 
+IPMI 2.0 RAKP Authentication Remote Password Hash Retrieval Vulnerability 
+2240 		10.29.254.5	2019.Feb.22 	2019.Feb.22 00:16 	S2 (High) 	The IPMI 2.0 specification supports RMCP+ Authenticated Key-Exchange Protocol (RAKP) authentication, which allows remote attackers to obtain password hashes and conduct offline password guessing attacks by obtaining the HMAC from a RAKP message 2 response from a BMC.
+Note: The IPMI 2.0 RAKP Authentication will be performed for the following users names: ADMIN, admin, root, Administrator, USERID.	IBM has made available a fix for CVE-2013-4037 at the following location: <a href="http://www-947.ibm.com/support/entry/portal/docdisplay?lndocid=MIGR-5093463" target="_blank" rel="nofollow">MIGR-5093463</a>
+Workaround:
+Ensure that no IPMI enabled devices are exposed to untrusted networks.
+Set complex passwords.	rcanda@cisco.com 
+tleese@cisco.com 
